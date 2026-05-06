@@ -204,10 +204,11 @@ tbody tr:hover td { background: var(--surface2); }
 .bc a:hover { text-decoration: underline; }
 
 /* TABS */
-.tab-bar { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; gap: 0; }
-.tab { padding: 10px 18px; font-size: 13px; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; font-family: inherit; }
-.tab:hover { color: var(--text); }
-.tab.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 500; }
+.tab-bar { display: flex; border: 1px solid var(--border-med); border-radius: var(--radius); margin-bottom: 20px; gap: 0; overflow: hidden; background: var(--surface2); }
+.tab { padding: 10px 20px; font-size: 13px; color: var(--text2); cursor: pointer; border-right: 1px solid var(--border-med); transition: all 0.15s; font-family: inherit; background: transparent; border-bottom: none; margin-bottom: 0; }
+.tab:last-child { border-right: none; }
+.tab:hover { background: var(--surface); color: var(--text); }
+.tab.active { background: var(--surface); color: var(--blue); font-weight: 500; box-shadow: inset 0 -2px 0 var(--blue); }
 .sub-tab-bar { display: flex; gap: 6px; margin-bottom: 14px; }
 .sub-tab { padding: 6px 14px; font-size: 12px; color: var(--text2); cursor: pointer; border: 1px solid var(--border-med); border-radius: 20px; font-family: inherit; transition: all 0.15s; }
 .sub-tab:hover { border-color: var(--blue); color: var(--blue); }
@@ -367,24 +368,24 @@ tbody tr:hover td { background: var(--surface2); }
       <div class="card">
         <div class="card-title">SKU health matrix <span>· click to drill down</span></div>
         <div class="sku-matrix">
-          <div class="sku-quad hh" onclick="goSku('hh')">
+          <div class="sku-quad hh" onclick="goSkuMaster('High vel · High stock')">
             <div class="sku-num">312</div>
             <div class="sku-desc">High velocity · High stock</div>
             <div class="sku-tag">Optimum</div>
           </div>
-          <div class="sku-quad hl" onclick="goSku('hl')">
+          <div class="sku-quad hl" onclick="goSkuMaster('High vel · Low stock')">
             <div class="sku-num">184</div>
             <div class="sku-desc">High velocity · Low stock</div>
             <div class="sku-tag">Reorder now</div>
             <div class="sku-rev">⚠ ₹18.4L at risk</div>
           </div>
-          <div class="sku-quad lh" onclick="goSku('lh')">
+          <div class="sku-quad lh" onclick="goSkuMaster('Low vel · High stock')">
             <div class="sku-num">267</div>
             <div class="sku-desc">Low velocity · High stock</div>
             <div class="sku-tag">Mark down / Move</div>
             <div class="sku-rev">⚠ ₹6.2L locked</div>
           </div>
-          <div class="sku-quad ll" onclick="goSku('ll')">
+          <div class="sku-quad ll" onclick="goSkuMaster('Low vel · Low stock')">
             <div class="sku-num">98</div>
             <div class="sku-desc">Low velocity · Low stock</div>
             <div class="sku-tag">Watch &amp; decide</div>
@@ -525,18 +526,18 @@ tbody tr:hover td { background: var(--surface2); }
     <div class="section" style="padding:0">
       <div class="tbl-wrap">
         <table id="skus-tbl">
-          <thead><tr><th onclick="sortT('skus-tbl',0)">SKU ID ↕</th><th onclick="sortT('skus-tbl',1)">Name ↕</th><th onclick="sortT('skus-tbl',2)">Category ↕</th><th onclick="sortT('skus-tbl',3)">Total Qty ↕</th><th>Stores</th><th onclick="sortT('skus-tbl',5)">Sales Velocity ↕</th><th onclick="sortT('skus-tbl',6)">Avg DSI ↕</th><th onclick="sortT('skus-tbl',7)">Margin % ↕</th><th onclick="sortT('skus-tbl',8)">MRP ↕</th><th>Status</th><th style="position:sticky;right:0;background:var(--surface)">Action</th></tr></thead>
+          <thead><tr><th onclick="sortT('skus-tbl',0)">SKU ID 2195</th><th onclick="sortT('skus-tbl',1)">Name 2195</th><th onclick="sortT('skus-tbl',2)">Category 2195</th><th>Status</th><th onclick="sortT('skus-tbl',4)">Total Qty 2195</th><th onclick="sortT('skus-tbl',5)">Stores 2195</th><th onclick="sortT('skus-tbl',6)">Sales Velocity 2195</th><th onclick="sortT('skus-tbl',7)">Avg DSI 2195</th><th onclick="sortT('skus-tbl',8)">Margin % 2195</th><th onclick="sortT('skus-tbl',9)">MRP 2195</th><th onclick="sortT('skus-tbl',10)"># Stores OOS/Low 2195</th><th onclick="sortT('skus-tbl',11)"># Stores Overstock 2195</th></tr></thead>
           <tbody id="skus-tbody">
-            <tr data-cat="Apparel" data-status="High vel · Low stock" data-margin="42"><td><div class="td-name">SKU-1042</div></td><td>Men's Casual Shirt</td><td>Apparel</td><td style="color:var(--red);font-weight:600">0</td><td>3</td><td>High</td><td style="color:var(--red)">0d</td><td>42%</td><td>₹1,199</td><td><span class="badge badge-red" style="font-size:10px">High vel · Low stock</span></td><td style="position:sticky;right:0;background:var(--surface)"><button class="btn-reorder" onclick="openSkuModal('SKU-1042','oos')">Reorder</button></td></tr>
-            <tr data-cat="Ethnic Wear" data-status="High vel · Low stock" data-margin="48"><td><div class="td-name">SKU-2218</div></td><td>Women's Kurti (L)</td><td>Ethnic Wear</td><td style="color:var(--red);font-weight:600">0</td><td>2</td><td>High</td><td style="color:var(--red)">0d</td><td>48%</td><td>₹1,499</td><td><span class="badge badge-red" style="font-size:10px">High vel · Low stock</span></td><td style="position:sticky;right:0;background:var(--surface)"><button class="btn-reorder" onclick="openSkuModal('SKU-2218','oos')">Reorder</button></td></tr>
-            <tr data-cat="Kids" data-status="Low vel · High stock" data-margin="35"><td><div class="td-name">SKU-0831</div></td><td>Kids Jeans (6-8y)</td><td>Kids</td><td style="color:var(--amber);font-weight:600">498</td><td>4</td><td>Low</td><td style="color:var(--amber)">98d</td><td>35%</td><td>₹899</td><td><span class="badge badge-amber" style="font-size:10px">Low vel · High stock</span></td><td style="position:sticky;right:0;background:var(--surface)"><button class="btn-redis" onclick="openSkuModal('SKU-0831','redis')">Redistribute</button></td></tr>
-            <tr data-cat="Formals" data-status="Low vel · High stock" data-margin="38"><td><div class="td-name">SKU-3301</div></td><td>Formal Trousers (32)</td><td>Formals</td><td style="color:var(--amber);font-weight:600">310</td><td>3</td><td>Low</td><td style="color:var(--amber)">112d</td><td>38%</td><td>₹1,799</td><td><span class="badge badge-amber" style="font-size:10px">Low vel · High stock</span></td><td style="position:sticky;right:0;background:var(--surface)"><button class="btn-mark" onclick="openSkuModal('SKU-3301','markdown')">Markdown</button></td></tr>
-            <tr data-cat="Bottomwear" data-status="High vel · Low stock" data-margin="44"><td><div class="td-name">SKU-4402</div></td><td>Leggings (S/M)</td><td>Bottomwear</td><td style="color:var(--amber);font-weight:600">8</td><td>2</td><td>High</td><td style="color:var(--amber)">3d</td><td>44%</td><td>₹599</td><td><span class="badge badge-amber" style="font-size:10px">High vel · Low stock</span></td><td style="position:sticky;right:0;background:var(--surface)"><button class="btn-restock" onclick="openSkuModal('SKU-4402','low')">Restock</button></td></tr>
-            <tr data-cat="Ethnic Wear" data-status="Low vel · High stock" data-margin="52"><td><div class="td-name">SKU-5510</div></td><td>Saree (Silk, Red)</td><td>Ethnic Wear</td><td style="color:var(--amber);font-weight:600">187</td><td>2</td><td>Low</td><td style="color:var(--amber)">88d</td><td>52%</td><td>₹2,499</td><td><span class="badge badge-amber" style="font-size:10px">Low vel · High stock</span></td><td style="position:sticky;right:0;background:var(--surface)"><button class="btn-mark" onclick="openSkuModal('SKU-5510','markdown')">Markdown</button></td></tr>
-            <tr data-cat="Apparel" data-status="High vel · High stock" data-margin="45"><td><div class="td-name">SKU-6621</div></td><td>Polo T-Shirt (M)</td><td>Apparel</td><td>244</td><td>6</td><td>High</td><td>29d</td><td>45%</td><td>₹799</td><td><span class="badge badge-green" style="font-size:10px">High vel · High stock</span></td><td style="position:sticky;right:0;background:var(--surface)"><span style="font-size:12px;color:var(--text3)">Optimum</span></td></tr>
-            <tr data-cat="Ethnic Wear" data-status="High vel · Low stock" data-margin="40"><td><div class="td-name">SKU-7712</div></td><td>Cotton Kurta (S)</td><td>Ethnic Wear</td><td style="color:var(--red);font-weight:600">0</td><td>2</td><td>High</td><td style="color:var(--red)">0d</td><td>40%</td><td>₹999</td><td><span class="badge badge-red" style="font-size:10px">High vel · Low stock</span></td><td style="position:sticky;right:0;background:var(--surface)"><button class="btn-reorder" onclick="openSkuModal('SKU-7712','oos')">Reorder</button></td></tr>
-            <tr data-cat="Bottomwear" data-status="High vel · High stock" data-margin="41"><td><div class="td-name">SKU-8834</div></td><td>Denim Shorts (30)</td><td>Bottomwear</td><td>182</td><td>5</td><td>Medium</td><td>38d</td><td>41%</td><td>₹1,099</td><td><span class="badge badge-green" style="font-size:10px">High vel · High stock</span></td><td style="position:sticky;right:0;background:var(--surface)"><span style="font-size:12px;color:var(--text3)">Optimum</span></td></tr>
-            <tr data-cat="Formals" data-status="Low vel · Low stock" data-margin="46"><td><div class="td-name">SKU-9901</div></td><td>Women's Blazer (S)</td><td>Formals</td><td>14</td><td>3</td><td>Low</td><td>18d</td><td>46%</td><td>₹2,299</td><td><span class="badge badge-amber" style="font-size:10px">Low vel · Low stock</span></td><td style="position:sticky;right:0;background:var(--surface)"><button class="btn-restock" onclick="openSkuModal('SKU-9901','low')">Restock</button></td></tr>
+            <tr data-cat="Apparel" data-status="High vel · Low stock" data-margin="42"><td><div class="td-name">SKU-1042</div></td><td>Men's Casual Shirt</td><td>Apparel</td><td><span class="badge badge-red" style="font-size:10px">High vel · Low stock</span></td><td style="color:var(--red);font-weight:600">0</td><td>3</td><td>High</td><td style="color:var(--red)">0d</td><td>42%</td><td>₹1,199</td><td><span class="clickable" onclick="goSkuBySkuFilter('SKU-1042','oos')">3</span></td><td><span style="color:var(--text3)">0</span></td></tr>
+            <tr data-cat="Ethnic Wear" data-status="High vel · Low stock" data-margin="48"><td><div class="td-name">SKU-2218</div></td><td>Women's Kurti (L)</td><td>Ethnic Wear</td><td><span class="badge badge-red" style="font-size:10px">High vel · Low stock</span></td><td style="color:var(--red);font-weight:600">0</td><td>2</td><td>High</td><td style="color:var(--red)">0d</td><td>48%</td><td>₹1,499</td><td><span class="clickable" onclick="goSkuBySkuFilter('SKU-2218','oos')">2</span></td><td><span style="color:var(--text3)">0</span></td></tr>
+            <tr data-cat="Kids" data-status="Low vel · High stock" data-margin="35"><td><div class="td-name">SKU-0831</div></td><td>Kids Jeans (6-8y)</td><td>Kids</td><td><span class="badge badge-amber" style="font-size:10px">Low vel · High stock</span></td><td style="color:var(--amber);font-weight:600">498</td><td>4</td><td>Low</td><td style="color:var(--amber)">98d</td><td>35%</td><td>₹899</td><td><span style="color:var(--text3)">0</span></td><td><span class="clickable" onclick="goSkuBySkuFilter('SKU-0831','redis')">4</span></td></tr>
+            <tr data-cat="Formals" data-status="Low vel · High stock" data-margin="38"><td><div class="td-name">SKU-3301</div></td><td>Formal Trousers (32)</td><td>Formals</td><td><span class="badge badge-amber" style="font-size:10px">Low vel · High stock</span></td><td style="color:var(--amber);font-weight:600">310</td><td>3</td><td>Low</td><td style="color:var(--amber)">112d</td><td>38%</td><td>₹1,799</td><td><span style="color:var(--text3)">0</span></td><td><span class="clickable" onclick="goSkuBySkuFilter('SKU-3301','redis')">3</span></td></tr>
+            <tr data-cat="Bottomwear" data-status="High vel · Low stock" data-margin="44"><td><div class="td-name">SKU-4402</div></td><td>Leggings (S/M)</td><td>Bottomwear</td><td><span class="badge badge-amber" style="font-size:10px">High vel · Low stock</span></td><td style="color:var(--amber);font-weight:600">8</td><td>2</td><td>High</td><td style="color:var(--amber)">3d</td><td>44%</td><td>₹599</td><td><span class="clickable" onclick="goSkuBySkuFilter('SKU-4402','low')">2</span></td><td><span style="color:var(--text3)">0</span></td></tr>
+            <tr data-cat="Ethnic Wear" data-status="Low vel · High stock" data-margin="52"><td><div class="td-name">SKU-5510</div></td><td>Saree (Silk, Red)</td><td>Ethnic Wear</td><td><span class="badge badge-amber" style="font-size:10px">Low vel · High stock</span></td><td style="color:var(--amber);font-weight:600">187</td><td>2</td><td>Low</td><td style="color:var(--amber)">88d</td><td>52%</td><td>₹2,499</td><td><span style="color:var(--text3)">0</span></td><td><span class="clickable" onclick="goSkuBySkuFilter('SKU-5510','redis')">2</span></td></tr>
+            <tr data-cat="Apparel" data-status="High vel · High stock" data-margin="45"><td><div class="td-name">SKU-6621</div></td><td>Polo T-Shirt (M)</td><td>Apparel</td><td><span class="badge badge-green" style="font-size:10px">High vel · High stock</span></td><td>244</td><td>6</td><td>High</td><td>29d</td><td>45%</td><td>₹799</td><td><span style="color:var(--text3)">0</span></td><td><span style="color:var(--text3)">0</span></td></tr>
+            <tr data-cat="Ethnic Wear" data-status="High vel · Low stock" data-margin="40"><td><div class="td-name">SKU-7712</div></td><td>Cotton Kurta (S)</td><td>Ethnic Wear</td><td><span class="badge badge-red" style="font-size:10px">High vel · Low stock</span></td><td style="color:var(--red);font-weight:600">0</td><td>2</td><td>High</td><td style="color:var(--red)">0d</td><td>40%</td><td>₹999</td><td><span class="clickable" onclick="goSkuBySkuFilter('SKU-7712','oos')">2</span></td><td><span style="color:var(--text3)">0</span></td></tr>
+            <tr data-cat="Bottomwear" data-status="High vel · High stock" data-margin="41"><td><div class="td-name">SKU-8834</div></td><td>Denim Shorts (30)</td><td>Bottomwear</td><td><span class="badge badge-green" style="font-size:10px">High vel · High stock</span></td><td>182</td><td>5</td><td>Medium</td><td>38d</td><td>41%</td><td>₹1,099</td><td><span style="color:var(--text3)">0</span></td><td><span style="color:var(--text3)">0</span></td></tr>
+            <tr data-cat="Formals" data-status="Low vel · Low stock" data-margin="46"><td><div class="td-name">SKU-9901</div></td><td>Women's Blazer (S)</td><td>Formals</td><td><span class="badge badge-amber" style="font-size:10px">Low vel · Low stock</span></td><td>14</td><td>3</td><td>Low</td><td>18d</td><td>46%</td><td>₹2,299</td><td><span class="clickable" onclick="goSkuBySkuFilter('SKU-9901','low')">1</span></td><td><span style="color:var(--text3)">0</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -715,6 +716,30 @@ function showScreen(name,el){
 }
 function goHome(){showScreen('home',document.getElementById('nav-home'));}
 function goSku(f){showScreen('sku',document.getElementById('nav-sku'));}
+function goSkuMaster(status){
+  showScreen('skus',document.getElementById('nav-skus'));
+  setTimeout(function(){
+    var sel=document.querySelector('#screen-skus .filter-panel select:nth-child(1)');
+    // trigger status filter
+    var rows=document.querySelectorAll('#skus-tbody tr');
+    rows.forEach(function(r){r.style.display=(!status||r.getAttribute('data-status')===status)?'':'none';});
+    showToast('Showing: '+status);
+  },30);
+}
+function goSkuBySkuFilter(skuId, type){
+  showScreen('sku',document.getElementById('nav-sku'));
+  setTimeout(function(){
+    var inp=document.querySelector('#screen-sku .search-inp');
+    inp.value=skuId;
+    searchTbl(inp,'sku-tbody');
+    // reset chips to all
+    document.querySelectorAll('#sku-chips .chip').forEach(function(c){c.classList.remove('active');});
+    document.querySelector('#sku-chips .chip').classList.add('active');
+    document.querySelectorAll('#sku-tbody tr').forEach(function(r){r.style.display='';});
+    inp.value=skuId; searchTbl(inp,'sku-tbody');
+    showToast('Store-SKU view for '+skuId);
+  },30);
+}
 function goStores(r){
   showScreen('stores',document.getElementById('nav-stores'));
   setTimeout(function(){
